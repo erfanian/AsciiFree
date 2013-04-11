@@ -3,29 +3,46 @@
 #That was easy! http://docs.python.org/3.1/howto/curses.html
 import curses
 
-#Draw a screen
-stdscr = curses.initscr()
+def startScreen():
+	#Draw a screen
+	stdscr = curses.initscr()
+	
+	#Mute echo
+	curses.noecho()
+	
+	#Accept input immediately
+	curses.cbreak()
+	
+	#Translate special keys to regular
+	stdscr.keypad(1)
+	
+	return
+	
+def stopScreen():
+	#Give the user her session back
+	curses.endwin()
+	return
 
-#Mute echo
-curses.noecho()
+def screenRefresh():
+		stdscr.clear()	
+		stdscr.refresh()
+		return
+		
+#------------- Above for things that will be moved to their own display library
 
-#Accept input immediately
-curses.cbreak()
+def getInput():
+	inputChar = 0
+	inputArray = []
 
-#Translate special keys to regular
-stdscr.keypad(1)
-
-while True:
-	#Wait ntenths of a second for input
-	curses.halfdelay(3)
-	#Get the input
-	c = stdscr.getch()
-	#Get a visual on things
-	stdscr.clear()	
-	stdscr.refresh()	
-	print(c)
-	if c == ord('q'):
-		#Give the user her session back
-		curses.endwin()
-		break  # Exit the while()
-	elif c == curses.KEY_HOME: x = y = 0
+	while True:
+		#Wait ntenths of a second for input
+		curses.halfdelay(3)
+		#Get the input
+		inputChar = stdscr.getch()
+		#Get a visual on things
+		print(inputChar)
+		if c == ord('q'):
+			stopScreen()
+			break  # Exit the while()
+		else:
+			screenRefresh()
