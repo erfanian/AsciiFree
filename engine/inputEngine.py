@@ -16,8 +16,8 @@ curses.cbreak()
 stdscr.keypad(1)
 
 while True:
-	#Don't wait for user input
-	#stdscr.nodelay(1)
+	#Wait ntenths of a second for input
+	curses.halfdelay(3)
 	#Get the input
 	c = stdscr.getch()
 	#Get a visual on things
