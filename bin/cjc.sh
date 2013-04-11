@@ -1,7 +1,7 @@
 #!/bin/sh
 # executes the given script in Eric's python environment
 
-PYTHONCMD='/Library/Frameworks/Python.framework/Versions/2.6/bin/python'
+PYTHONCMD='/usr/bin/python'
 
 if [ $# -lt 1 ]; then
 	echo "USAGE: $0 TARGET"
