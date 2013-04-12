@@ -27,7 +27,8 @@ def screenRefresh():
 #------------- Above for things that will be moved to their own display library
 
 def getInput():
-	inputChar = 0
+	global inputChar
+	global inputArray
 	inputArray = []
 
 	while True:
@@ -38,13 +39,25 @@ def getInput():
 			break  # Exit the while()
 		elif inputChar == 260:
 			print('Left')
+			storeInput()
 		elif inputChar == 258:
 			print('Down')
+			storeInput()
 		elif inputChar == 261:
 			print('Right')
+			storeInput()
 		else:
 			screenRefresh()
 			print(inputChar)		#Get a visual on things
+			
+def storeInput():
+	inputArray.append(inputChar)
+	return
+	
+def dumpInput():
+	print(inputArray)
+	return
 
 startScreen()
 getInput()
+dumpInput()
