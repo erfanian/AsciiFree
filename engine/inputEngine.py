@@ -28,8 +28,8 @@ def screenRefresh():
 
 def getInput():
 	global inputChar
-	global inputArray
-	inputArray = []
+	global inputList
+	inputList = []
 
 	while True:
 		curses.halfdelay(3)		#Wait ntenths of a second for input
@@ -51,12 +51,13 @@ def getInput():
 			print(inputChar)		#Get a visual on things
 			
 def storeInput():
-	inputArray.append(inputChar)
+	inputList.append(inputChar)
 	return
 	
 def dumpInput():
-	print(inputArray)
-	return
+	for i in inputList:
+		print(i) #Just change this to return later for the game engine
+	inputList[:] = [] #Clear the input list
 
 startScreen()
 getInput()
