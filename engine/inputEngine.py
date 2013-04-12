@@ -32,7 +32,7 @@ def getInput():
 	inputList = []
 
 	while True:
-		curses.halfdelay(3)		#Wait ntenths of a second for input
+		stdscr.nodelay(1)
 		inputChar = stdscr.getch()		#Get the input
 		if inputChar == ord('q'):
 			stopScreen()
