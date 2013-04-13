@@ -41,7 +41,10 @@ def getInput():
 		inputChar = stdscr.getch()		#Get the input
 		if inputChar == ord('q'):
 			stopScreen()
-			inputEvents.task_done()
+			try:
+				inputEvents.task_done()
+			except ValueError:
+				print('Nothing happened.')
 			break  # Exit the while()
 		elif inputChar == 260:
 			print('Left')
@@ -64,11 +67,14 @@ def dumpInput():
 	while not inputEvents.empty():
 		print(inputEvents.get()) #Just change this to return later for the game engine
 	while inputEvents.empty():
-#		inputEvents.task_done()
-		pass
+		try:
+			inputEvents.task_done()
+		except ValueError:
+			print('Nothing happened.')
 		break
 
 startScreen()
 getInputThread = threading.Thread(target=getInput())
 getInputThread.start()
-dumpInput()
+dumpInputThread = threading.Thread(target=dumpInput())
+dumpInputThread.start()
