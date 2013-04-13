@@ -30,6 +30,7 @@ def screenRefresh():
 		
 #------------- Above for things that will be moved to their own display library
 
+
 def getInput():
 	global inputChar
 	global inputEvents
@@ -40,6 +41,7 @@ def getInput():
 		inputChar = stdscr.getch()		#Get the input
 		if inputChar == ord('q'):
 			stopScreen()
+			inputEvents.task_done()
 			break  # Exit the while()
 		elif inputChar == 260:
 			print('Left')
@@ -62,8 +64,11 @@ def dumpInput():
 	while not inputEvents.empty():
 		print(inputEvents.get()) #Just change this to return later for the game engine
 	while inputEvents.empty():
-		inputEvents.task_done()
+#		inputEvents.task_done()
+		pass
+		break
 
 startScreen()
-getInput()
+getInputThread = threading.Thread(target=getInput())
+getInputThread.start()
 dumpInput()
