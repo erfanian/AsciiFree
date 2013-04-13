@@ -2,6 +2,8 @@
 
 #That was easy! http://docs.python.org/3.1/howto/curses.html
 import curses
+#http://docs.python.org/3.1/library/queue.html#module-queue
+import queue
 
 def startScreen():
 	global stdscr #Make sure others can access the screen
@@ -28,8 +30,8 @@ def screenRefresh():
 
 def getInput():
 	global inputChar
-	global inputList
-	inputList = []
+	global inputEvents
+	inputEvents = queue.Queue()
 
 	while True:
 		stdscr.nodelay(1)
@@ -39,25 +41,24 @@ def getInput():
 			break  # Exit the while()
 		elif inputChar == 260:
 			print('Left')
-			storeInput()
+			storeInput(inputChar)
 		elif inputChar == 258:
 			print('Down')
-			storeInput()
+			storeInput(inputChar)
 		elif inputChar == 261:
 			print('Right')
-			storeInput()
+			storeInput(inputChar)
 		else:
 			screenRefresh()
 			print(inputChar)		#Get a visual on things
 			
-def storeInput():
-	inputList.append(inputChar)
+def storeInput(keyPress):
+	inputEvents.put(keyPress)
 	return
 	
 def dumpInput():
-	for i in inputList:
-		print(i) #Just change this to return later for the game engine
-	inputList[:] = [] #Clear the input list
+	while not inputEvents.empty():
+		print(inputEvents.get()) #Just change this to return later for the game engine
 
 startScreen()
 getInput()
