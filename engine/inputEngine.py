@@ -74,7 +74,7 @@ def dumpInput():
 		break
 
 startScreen()
-getInputThread = threading.Thread(target=getInput())
-getInputThread.start()
-dumpInputThread = threading.Thread(target=dumpInput())
-dumpInputThread.start()
+getInputThread = threading.Thread(target=getInput()) #inputThread Object
+getInputThread.start() #Start the thread
+dumpInputThread = threading.Thread(target=dumpInput()) #dumpThread Object
+dumpInputThread.start() #Start the thread
