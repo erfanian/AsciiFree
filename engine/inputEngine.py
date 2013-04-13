@@ -45,7 +45,7 @@ def screenRefresh():
 
 
 def getInput():
-	global inputChar
+	inputChar = 0
 	global inputEvents
 	inputEvents = queue.Queue()
 
