@@ -4,6 +4,8 @@
 import curses
 #http://docs.python.org/3.1/library/queue.html#module-queue
 import queue
+#http://docs.python.org/3.1/library/threading.html
+import threading
 
 def startScreen():
 	global stdscr #Make sure others can access the screen
@@ -59,6 +61,8 @@ def storeInput(keyPress):
 def dumpInput():
 	while not inputEvents.empty():
 		print(inputEvents.get()) #Just change this to return later for the game engine
+	while inputEvents.empty():
+		inputEvents.task_done()
 
 startScreen()
 getInput()
