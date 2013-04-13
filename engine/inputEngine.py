@@ -44,7 +44,7 @@ def getInput():
 			try:
 				inputEvents.task_done()
 			except ValueError:
-				print('Nothing happened.')
+				print('Nothing happened.') #Handles no user input.
 			break  # Exit the while()
 		elif inputChar == 260:
 			print('Left')
@@ -70,7 +70,7 @@ def dumpInput():
 		try:
 			inputEvents.task_done()
 		except ValueError:
-			print('Nothing happened.')
+			print('Nothing happened.') #Handles no user input. You will also see this when the lock is removed and the queue is empty."
 		break
 
 startScreen()
