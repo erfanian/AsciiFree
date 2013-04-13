@@ -60,17 +60,19 @@ def getInput():
 				print('Nothing happened.') #Handles no user input.
 			break  # Exit the while()
 		elif inputChar == 260:
+			screenRefresh()			
 			print('Left')
 			storeInput(inputChar)
 		elif inputChar == 258:
+			screenRefresh()			
 			print('Down')
 			storeInput(inputChar)
 		elif inputChar == 261:
+			screenRefresh()
 			print('Right')
 			storeInput(inputChar)
 		else:
-			screenRefresh()
-			print(inputChar)		#Get a visual on things
+			pass
 			
 def storeInput(keyPress):
 	inputEvents.put(keyPress)
@@ -79,12 +81,6 @@ def storeInput(keyPress):
 def dumpInput():
 	while not inputEvents.empty():
 		print(inputEvents.get()) #Just change this to return later for the game engine
-	while inputEvents.empty():
-		try:
-			inputEvents.task_done()
-		except ValueError:
-			print('Nothing happened.') #Handles no user input. You will also see this when the lock is removed and the queue is empty."
-		break
 
 startScreen()
 getInputThread = threading.Thread(target=getInput()) #inputThread Object
