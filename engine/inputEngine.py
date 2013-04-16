@@ -89,15 +89,11 @@ class Input:
 	def dumpInput(self):
 		while not Input.inputEvents.empty():
 			print(Input.inputEvents.get()) #Just change this to return later for the game engine
-	
-	def startInputThreads(self):		
-		getInputThread = threading.Thread(target=self.getInput()) #inputThread Object
-		dumpInputThread = threading.Thread(target=self.dumpInput()) #dumpThread Object
+
 
 dummyInput = Input()
-dummyInput.startInputThreads()
 
-#getInputThread.start() #Start the thread
-#dumpInputThread.start() #Start the thread
-
-
+getInputThread = threading.Thread(target=dummyInput.getInput()) #inputThread Object
+dumpInputThread = threading.Thread(target=dummyInput.dumpInput()) #dumpThread Object
+getInputThread.start() #Start the thread
+dumpInputThread.start() #Start the thread
