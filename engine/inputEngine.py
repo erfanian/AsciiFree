@@ -20,70 +20,79 @@ import queue
 #http://docs.python.org/3.1/library/threading.html
 import threading
 
-def startScreen():
-	global stdscr #Make sure others can access the screen
-	stdscr = curses.initscr()	#Draw a screen
-	curses.noecho()	#Mute echo
-	curses.cbreak() 	#Accept input immediately
-	stdscr.keypad(1) 	#Translate special keys to regular
-	print('Starting Screen')
-	return
+class Screen:
+	'A generic screen object for now'
 	
-def stopScreen():
-	#Give the user her session back
-	curses.endwin()
-	print('Stopping Screen')
-	return
-
-def screenRefresh():
-	stdscr.clear()	
-	stdscr.refresh()
-	print('Refreshing Screen')
-	return
+	def startScreen():
+		global stdscr #Make sure others can access the screen
+		stdscr = curses.initscr()	#Draw a screen
+		curses.noecho()	#Mute echo
+		curses.cbreak() 	#Accept input immediately
+		stdscr.keypad(1) 	#Translate special keys to regular
+		print('Starting Screen')
+		return
+		
+	def stopScreen():
+		#Give the user her session back
+		curses.endwin()
+		print('Stopping Screen')
+		return
+	
+	def screenRefresh():
+		stdscr.clear()	
+		stdscr.refresh()
+		print('Refreshing Screen')
+		return
 		
 #------------- Above for things that will be moved to their own display library
 
-
-def getInput():
+class Input:
+	'A generic input class for the game engine to instantiate'
+	
 	inputChar = 0
-	global inputEvents
 	inputEvents = queue.Queue()
 
-	while True:
-		stdscr.nodelay(1)
-		inputChar = stdscr.getch()		#Get the input
-		if inputChar == ord('q'):
-			stopScreen()
-			try:
-				inputEvents.task_done()
-			except ValueError:
-				print('Nothing happened.') #Handles no user input.
-			break  # Exit the while()
-		elif inputChar == 260:
-			screenRefresh()			
-			print('Left')
-			storeInput(inputChar)
-		elif inputChar == 258:
-			screenRefresh()			
-			print('Down')
-			storeInput(inputChar)
-		elif inputChar == 261:
-			screenRefresh()
-			print('Right')
-			storeInput(inputChar)
-		else:
-			pass
-			
-def storeInput(keyPress):
-	inputEvents.put(keyPress)
-	return
-	
-def dumpInput():
-	while not inputEvents.empty():
-		print(inputEvents.get()) #Just change this to return later for the game engine
+	def getInput():
 
-startScreen()
-getInputThread = threading.Thread(target=getInput()) #inputThread Object
-getInputThread.start() #Start the thread
-dumpInputThread = threading.Thread(target=dumpInput()) #dumpThread Object
-dumpInputThread.start() #Start the thread
+		while True:
+			dummyScreen.stdscr.nodelay(1)
+			inputChar = stdscr.getch()		#Get the input
+			if inputChar == ord('q'):
+				stopScreen()
+				try:
+					inputEvents.task_done()
+				except ValueError:
+					print('Nothing happened.') #Handles no user input.
+				break  # Exit the while()
+			elif inputChar == 260:
+				screenRefresh()			
+				print('Left')
+				storeInput(inputChar)
+			elif inputChar == 258:
+				screenRefresh()			
+				print('Down')
+				storeInput(inputChar)
+			elif inputChar == 261:
+				screenRefresh()
+				print('Right')
+				storeInput(inputChar)
+			else:
+				pass
+				
+	def storeInput(keyPress):
+		inputEvents.put(keyPress)
+		return
+		
+	def dumpInput():
+		while not inputEvents.empty():
+			print(inputEvents.get()) #Just change this to return later for the game engine
+			
+	getInputThread = threading.Thread(target=getInput()) #inputThread Object
+	dumpInputThread = threading.Thread(target=dumpInput()) #dumpThread Object
+
+dummyScreen = Screen()
+dummyScreen.startScreen()
+#getInputThread.start() #Start the thread
+#dumpInputThread.start() #Start the thread
+
+
