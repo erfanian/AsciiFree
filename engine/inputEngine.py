@@ -32,7 +32,7 @@ class Screen:
 		print('Starting Screen')
 		return
 		
-	def stopScreen():
+	def stopScreen(self):
 		#Give the user her session back
 		curses.endwin()
 		print('Stopping Screen')
@@ -55,44 +55,47 @@ class Input:
 	inputChar = 0
 	inputEvents = queue.Queue()
 
-	def getInput():
+	def getInput(self):
 
 		while True:
 			dummyScreen.stdscr.nodelay(1)
-			inputChar = stdscr.getch()		#Get the input
+			inputChar = dummyScreen.stdscr.getch()		#Get the input
 			if inputChar == ord('q'):
 				dummyScreen.stopScreen()
 				try:
-					inputEvents.task_done()
+					Input.inputEvents.task_done()
 				except ValueError:
 					print('Nothing happened.') #Handles no user input.
 				break  # Exit the while()
 			elif inputChar == 260:
 				dummyScreen.screenRefresh()			
 				print('Left')
-				storeInput(inputChar)
+				self.storeInput(inputChar)
 			elif inputChar == 258:
 				dummyScreen.screenRefresh()			
 				print('Down')
-				storeInput(inputChar)
+				self.storeInput(inputChar)
 			elif inputChar == 261:
 				dummyScreen.screenRefresh()
 				print('Right')
-				storeInput(inputChar)
+				self.storeInput(inputChar)
 			else:
 				pass
 				
-	def storeInput(keyPress):
-		inputEvents.put(keyPress)
+	def storeInput(self, keyPress):
+		Input.inputEvents.put(keyPress)
 		return
 		
-	def dumpInput():
-		while not inputEvents.empty():
-			print(inputEvents.get()) #Just change this to return later for the game engine
-			
-	getInputThread = threading.Thread(target=getInput()) #inputThread Object
-	dumpInputThread = threading.Thread(target=dumpInput()) #dumpThread Object
+	def dumpInput(self):
+		while not Input.inputEvents.empty():
+			print(Input.inputEvents.get()) #Just change this to return later for the game engine
+	
+	def startInputThreads(self):		
+		getInputThread = threading.Thread(target=self.getInput()) #inputThread Object
+		dumpInputThread = threading.Thread(target=self.dumpInput()) #dumpThread Object
 
+dummyInput = Input()
+dummyInput.startInputThreads()
 
 #getInputThread.start() #Start the thread
 #dumpInputThread.start() #Start the thread
