@@ -23,12 +23,12 @@ import threading
 class Screen:
 	'A generic screen object for now'
 	
-	def startScreen():
-		global stdscr #Make sure others can access the screen
-		stdscr = curses.initscr()	#Draw a screen
+	def startScreen(self):
+		#global stdscr #Make sure others can access the screen
+		self.stdscr = curses.initscr()	#Draw a screen
 		curses.noecho()	#Mute echo
 		curses.cbreak() 	#Accept input immediately
-		stdscr.keypad(1) 	#Translate special keys to regular
+		self.stdscr.keypad(1) 	#Translate special keys to regular
 		print('Starting Screen')
 		return
 		
@@ -43,6 +43,9 @@ class Screen:
 		stdscr.refresh()
 		print('Refreshing Screen')
 		return
+
+dummyScreen = Screen()
+dummyScreen.startScreen()
 		
 #------------- Above for things that will be moved to their own display library
 
@@ -90,8 +93,7 @@ class Input:
 	getInputThread = threading.Thread(target=getInput()) #inputThread Object
 	dumpInputThread = threading.Thread(target=dumpInput()) #dumpThread Object
 
-dummyScreen = Screen()
-dummyScreen.startScreen()
+
 #getInputThread.start() #Start the thread
 #dumpInputThread.start() #Start the thread
 
