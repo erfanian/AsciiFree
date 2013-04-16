@@ -38,9 +38,9 @@ class Screen:
 		print('Stopping Screen')
 		return
 	
-	def screenRefresh():
-		stdscr.clear()	
-		stdscr.refresh()
+	def screenRefresh(self):
+		self.stdscr.clear()	
+		self.stdscr.refresh()
 		print('Refreshing Screen')
 		return
 
@@ -61,22 +61,22 @@ class Input:
 			dummyScreen.stdscr.nodelay(1)
 			inputChar = stdscr.getch()		#Get the input
 			if inputChar == ord('q'):
-				stopScreen()
+				dummyScreen.stopScreen()
 				try:
 					inputEvents.task_done()
 				except ValueError:
 					print('Nothing happened.') #Handles no user input.
 				break  # Exit the while()
 			elif inputChar == 260:
-				screenRefresh()			
+				dummyScreen.screenRefresh()			
 				print('Left')
 				storeInput(inputChar)
 			elif inputChar == 258:
-				screenRefresh()			
+				dummyScreen.screenRefresh()			
 				print('Down')
 				storeInput(inputChar)
 			elif inputChar == 261:
-				screenRefresh()
+				dummyScreen.screenRefresh()
 				print('Right')
 				storeInput(inputChar)
 			else:
