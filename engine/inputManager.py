@@ -79,6 +79,9 @@ class Input (threading.Thread):
 		self.threadMainLoop()
 
 		print( "THREAD %s STOPPING!  Goodbye!" % self.name)
+		
+		screenObject.screenRefresh()
+		screenObject.stopScreen()
 
 	def threadMainLoop(self):
 		# this loop will run until self.userQuit becomes True
@@ -103,8 +106,6 @@ class Input (threading.Thread):
 	def handleInput(self, inputChar):
 		if inputChar == 113:
 			self.userQuit = True
-			screenObject.screenRefresh()
-			screenObject.stopScreen()
 		elif inputChar == 260:
 			self.storeInput(inputChar)
 		elif inputChar == 258:		
