@@ -41,11 +41,10 @@ class Screen:
 	def screenRefresh(self):
 		self.stdscr.clear()	
 		self.stdscr.refresh()
-		print('Refreshing Screen')
 		return
 
-dummyScreen = Screen()
-dummyScreen.startScreen()
+#dummyScreen = Screen()
+#dummyScreen.startScreen()
 		
 #------------- Above for things that will be moved to their own display library
 
@@ -54,46 +53,43 @@ class Input:
 	
 	inputChar = 0
 	inputEvents = queue.Queue()
+	userQuit = True
 
-	def getInput(self):
+	def getInput(self, inputChar):
 
-		while True:
-			dummyScreen.stdscr.nodelay(1)
-			inputChar = dummyScreen.stdscr.getch()		#Get the input
-			if inputChar == ord('q'):
-				dummyScreen.stopScreen()
-				try:
-					Input.inputEvents.task_done()
-				except ValueError:
-					print('Nothing happened.') #Handles no user input.
-				break  # Exit the while()
+		while Input.userQuit is not True:
+	#			screenObject.stdscr.nodelay(1)
+	#			inputChar = screenObject.stdscr.getch()		#Get the input
+			if inputChar == 113:
+	#				dummyScreen.stopScreen()
+				Input.userQuit = True
 			elif inputChar == 260:
-				dummyScreen.screenRefresh()			
-				print('Left')
+	#				dummyScreen.screenRefresh()			
 				self.storeInput(inputChar)
 			elif inputChar == 258:
-				dummyScreen.screenRefresh()			
-				print('Down')
+	#				dummyScreen.screenRefresh()			
 				self.storeInput(inputChar)
 			elif inputChar == 261:
-				dummyScreen.screenRefresh()
-				print('Right')
+	#				dummyScreen.screenRefresh()
 				self.storeInput(inputChar)
 			else:
 				pass
+			
+		return False
 				
 	def storeInput(self, keyPress):
 		Input.inputEvents.put(keyPress)
+		Input.inputEvents.task_done()
 		return
 		
 	def dumpInput(self):
 		while not Input.inputEvents.empty():
-			print(Input.inputEvents.get()) #Just change this to return later for the game engine
+			return Input.inputEvents.get() #Just change this to return later for the game engine
 
 
-dummyInput = Input()
+#dummyInput = Input()
 
-getInputThread = threading.Thread(target=dummyInput.getInput()) #inputThread Object
-dumpInputThread = threading.Thread(target=dummyInput.dumpInput()) #dumpThread Object
-getInputThread.start() #Start the thread
-dumpInputThread.start() #Start the thread
+#getInputThread = threading.Thread(target=dummyInput.getInput()) #inputThread Object
+#dumpInputThread = threading.Thread(target=dummyInput.dumpInput()) #dumpThread Object
+#getInputThread.start() #Start the thread
+#dumpInputThread.start() #Start the thread
