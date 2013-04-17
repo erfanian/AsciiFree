@@ -21,7 +21,7 @@ import queue
 import threading
 
 class Screen:
-	'A generic screen object for now'
+	'A generic screen class for now'
 	
 	def startScreen(self):
 		#global stdscr #Make sure others can access the screen
