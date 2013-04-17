@@ -50,7 +50,7 @@ class Screen:
 #------------- Above for things that will be moved to their own display library
 
 class Input (threading.Thread):
-	# This class extends threading.Thread so that each object can encapsulate
+	# This class extends threading. Thread so that each object can encapsulate
 	# its own thread.  I haven't overridden __init__() because I didn't see
 	# the need.  But we basically fall into the main loop when someone tells
 	# the object to start().  That loop then waits for characters over and
@@ -60,7 +60,7 @@ class Input (threading.Thread):
 	'A generic input class for the game engine to instantiate'
 	
 	inputChar = 0
-	inputEvents = Queue.Queue()
+	inputEvents = queue.Queue()
 	userQuit = False
 
 	
@@ -78,11 +78,11 @@ class Input (threading.Thread):
 	#    threadMainLoop() which runs until the thread
 	#    needs to die.  Then it's done!
 	def run(self):
-		print "THREAD %s STARTING!" % self.name
+		print("THREAD %s STARTING!" % self.name)
 
 		self.threadMainLoop()
 
-		print "THREAD %s STOPPING!  Goodbye!" % self.name
+		print( "THREAD %s STOPPING!  Goodbye!" % self.name)
 
 
 
