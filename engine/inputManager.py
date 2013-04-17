@@ -53,16 +53,16 @@ class Input:
 	
 	inputChar = 0
 	inputEvents = queue.Queue()
-	userQuit = True
+	userQuit = False
 
 	def getInput(self, inputChar):
 
-		while Input.userQuit is not True:
+		while self.userQuit is not True:
 	#			screenObject.stdscr.nodelay(1)
 	#			inputChar = screenObject.stdscr.getch()		#Get the input
 			if inputChar == 113:
 	#				dummyScreen.stopScreen()
-				Input.userQuit = True
+				self.userQuit = True
 			elif inputChar == 260:
 	#				dummyScreen.screenRefresh()			
 				self.storeInput(inputChar)
