@@ -68,8 +68,6 @@ class Input (threading.Thread):
 	#     it works for now as a demo.
 	def setHalt(self):
 		self.userQuit = True
-		screenObject.screenRefresh()
-		screenObject.stopScreen()
 
 	# this method gets called when somebody tells this
 	#    object to start() ... all we do here is call
@@ -105,6 +103,8 @@ class Input (threading.Thread):
 	def handleInput(self, inputChar):
 		if inputChar == 113:
 			self.userQuit = True
+			screenObject.screenRefresh()
+			screenObject.stopScreen()
 		elif inputChar == 260:
 			self.storeInput(inputChar)
 		elif inputChar == 258:		
@@ -121,7 +121,7 @@ class Input (threading.Thread):
 		
 	def dumpInput(self):
 		while not self.inputEvents.empty():
-			print(self.inputEvents.get()) #Just change this to return later for the game engine
+			return self.inputEvents.get() #Just change this to return later for the game engine
 
 newInput = Input()
 newInput.run() # start the thread running
