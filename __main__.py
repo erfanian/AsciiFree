@@ -1,14 +1,16 @@
 #! /usr/bin/env python3.0
 
-import os
-import sys
+from engine import screenManager
+from engine import inputManager
 
-while True:
-  os.system('clear')
-  print('|\n')
-  user_option = raw_input("Enter 'Q' to quit.")
-  try:
-    if user_option.lower() == 'q': # makes everything lowercase so it is easier to handle
-      sys.exit("Game Terminated.")
-  except TypeError:
-    print('What?')
+def main():
+	#draw the screen and start it
+	screenObject = screenManager.Screen()
+	screenObject.startScreen()
+	
+	#get some input
+	newInput = inputManager.Input()
+	newInput.setUp(screenObject) #pass the screen object so the input can draw to it.
+	newInput.run() # start the thread running
+	
+main()

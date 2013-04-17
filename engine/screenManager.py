@@ -39,5 +39,3 @@ class Screen:
 		self.stdscr.refresh()
 		return
 
-#screenObject = Screen()
-#screenObject.startScreen()

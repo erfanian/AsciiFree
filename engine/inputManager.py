@@ -20,8 +20,6 @@ import queue
 import threading
 import time
 
-import screenManager
-
 class Input (threading.Thread):
 	# This class extends threading. Thread so that each object can encapsulate
 	# its own thread.  I haven't overridden __init__() because I didn't see
@@ -35,7 +33,12 @@ class Input (threading.Thread):
 	inputChar = 0
 	inputEvents = queue.Queue()
 	userQuit = False
+	screenObject = 0
 
+	def setUp(self, passedScreenObject):
+		Input.screenObject = passedScreenObject
+		return 
+	
 	# this is an EXTREMELY unsafe way to quit the
 	#     thread.  It doesn't lock in any way, but
 	#     it works for now as a demo.
@@ -53,16 +56,16 @@ class Input (threading.Thread):
 
 		print( "THREAD %s STOPPING!  Goodbye!" % self.name)
 		
-		screenObject.screenRefresh()
-		screenObject.stopScreen()
+		self.screenObject.screenRefresh()
+		self.screenObject.stopScreen()
 
 	def threadMainLoop(self):
 		# this loop will run until self.userQuit becomes True
 		while self.userQuit is not True:
-			screenObject.stdscr.nodelay(1)
+			self.screenObject.stdscr.nodelay(1)
 
 			### get an input character
-			inputChar = screenObject.stdscr.getch()		#Get the input
+			inputChar = self.screenObject.stdscr.getch()		#Get the input
 			
 			### now handle the input
 			self.handleInput(inputChar)
@@ -96,9 +99,3 @@ class Input (threading.Thread):
 	def dumpInput(self):
 		while not self.inputEvents.empty():
 			return self.inputEvents.get() #Just change this to return later for the game engine
-
-screenObject = screenManager.Screen()
-screenObject.startScreen()
-
-newInput = Input()
-newInput.run() # start the thread running
