@@ -44,8 +44,8 @@ class Screen:
 		self.stdscr.refresh()
 		return
 
-#dummyScreen = Screen()
-#dummyScreen.startScreen()
+screenObject = Screen()
+screenObject.startScreen()
 		
 #------------- Above for things that will be moved to their own display library
 
@@ -63,15 +63,13 @@ class Input (threading.Thread):
 	inputEvents = queue.Queue()
 	userQuit = False
 
-	
-
 	# this is an EXTREMELY unsafe way to quit the
 	#     thread.  It doesn't lock in any way, but
 	#     it works for now as a demo.
 	def setHalt(self):
 		self.userQuit = True
-
-
+		screenObject.screenRefresh()
+		screenObject.stopScreen()
 
 	# this method gets called when somebody tells this
 	#    object to start() ... all we do here is call
@@ -84,27 +82,20 @@ class Input (threading.Thread):
 
 		print( "THREAD %s STOPPING!  Goodbye!" % self.name)
 
-
-
-
-
-
 	def threadMainLoop(self):
 		# this loop will run until self.userQuit becomes True
 		while self.userQuit is not True:
-			# screenObject.stdscr.nodelay(1)
+			screenObject.stdscr.nodelay(1)
 
 			### get an input character
-			inputChar = 0
-			# inputChar = screenObject.stdscr.getch()		#Get the input
+			inputChar = screenObject.stdscr.getch()		#Get the input
 			
 			### now handle the input
-			self.handleInput
+			self.handleInput(inputChar)
 			
 			### for testing, sleep for 10 msec
 			time.sleep(0.01)
 			
-
 	# handleInput(inputChar) is called to handle an input
 	#    character.  This should only be called inside
 	#    threadMainLoop, but it can be called externally
@@ -116,15 +107,12 @@ class Input (threading.Thread):
 			self.userQuit = True
 		elif inputChar == 260:
 			self.storeInput(inputChar)
-		elif inputChar == 258:
-			#				dummyScreen.screenRefresh()			
+		elif inputChar == 258:		
 			self.storeInput(inputChar)
 		elif inputChar == 261:
-			#				dummyScreen.screenRefresh()
 			self.storeInput(inputChar)
 		else:
 			pass
-
 	
 	def storeInput(self, keyPress):
 		self.inputEvents.put(keyPress)
@@ -133,12 +121,7 @@ class Input (threading.Thread):
 		
 	def dumpInput(self):
 		while not self.inputEvents.empty():
-			return self.inputEvents.get() #Just change this to return later for the game engine
+			print(self.inputEvents.get()) #Just change this to return later for the game engine
 
-
-#dummyInput = Input()
-
-#getInputThread = threading.Thread(target=dummyInput.getInput()) #inputThread Object
-#dumpInputThread = threading.Thread(target=dummyInput.dumpInput()) #dumpThread Object
-#getInputThread.start() #Start the thread
-#dumpInputThread.start() #Start the thread
+newInput = Input()
+newInput.run() # start the thread running
