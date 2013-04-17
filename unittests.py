@@ -1,6 +1,7 @@
 import unittest
 import time
-import inputManager
+from engine import screenManager
+from engine import inputManager
  
 class inputTests(unittest.TestCase):
 	
@@ -23,8 +24,6 @@ class inputTests(unittest.TestCase):
 		time.sleep(0.1)
 
 		self.assertEqual(False, newInput.is_alive(), 'Thread still alive after it was told to quit!')
-
-
 
 	def testLeft(self):
 		newInput = inputManager.Input(name='testLeftInputManager')
