@@ -11,43 +11,16 @@
 ##########################################################################
 ## inputEngine.py contributors: ##########################################
 ## Eric Erfanian #########################################################
+## Chris Cornelius #######################################################
 ##########################################################################
 
-#That was easy! http://docs.python.org/3.1/howto/curses.html
-import curses
 #http://docs.python.org/3.1/library/queue.html#module-queue
 import queue
 #http://docs.python.org/3.1/library/threading.html
 import threading
 import time
 
-class Screen:
-	'A generic screen class for now'
-	
-	def startScreen(self):
-		#global stdscr #Make sure others can access the screen
-		self.stdscr = curses.initscr()	#Draw a screen
-		curses.noecho()	#Mute echo
-		curses.cbreak() 	#Accept input immediately
-		self.stdscr.keypad(1) 	#Translate special keys to regular
-		print('Starting Screen')
-		return
-		
-	def stopScreen(self):
-		#Give the user her session back
-		curses.endwin()
-		print('Stopping Screen')
-		return
-	
-	def screenRefresh(self):
-		self.stdscr.clear()	
-		self.stdscr.refresh()
-		return
-
-screenObject = Screen()
-screenObject.startScreen()
-		
-#------------- Above for things that will be moved to their own display library
+import screenManager
 
 class Input (threading.Thread):
 	# This class extends threading. Thread so that each object can encapsulate
@@ -123,6 +96,9 @@ class Input (threading.Thread):
 	def dumpInput(self):
 		while not self.inputEvents.empty():
 			return self.inputEvents.get() #Just change this to return later for the game engine
+
+screenObject = screenManager.Screen()
+screenObject.startScreen()
 
 newInput = Input()
 newInput.run() # start the thread running
