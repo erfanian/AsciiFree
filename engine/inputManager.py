@@ -80,6 +80,8 @@ class Input (threading.Thread):
 			### for testing, sleep for 10 msec
 			time.sleep(0.01)
 			
+			self.dumpInput()
+			
 	# handleInput(inputChar) is called to handle an input
 	#    character.  This should only be called inside
 	#    threadMainLoop, but it can be called externally
@@ -105,6 +107,4 @@ class Input (threading.Thread):
 		
 	def dumpInput(self):
 		while not self.inputEvents.empty():
-			return self.inputEvents.get() #Just change this to return later for the game engine
-		while not self.inputEvents.empty():
-			return 10
+			print(self.inputEvents.get()) #Just change this to return later for the game engine
