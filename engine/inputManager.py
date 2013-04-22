@@ -107,4 +107,4 @@ class Input (threading.Thread):
 		
 	def dumpInput(self):
 		while not self.inputEvents.empty():
-			print(self.inputEvents.get()) #Just change this to return later for the game engine
+			return self.inputEvents.get() #Just change this to return later for the game engine

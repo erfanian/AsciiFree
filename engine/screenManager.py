@@ -45,3 +45,6 @@ class Screen:
 		self.stdscr.clear()	
 		self.stdscr.refresh()
 		return
+	
+	def screenPrint(self):
+		print("Hello")

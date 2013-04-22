@@ -23,6 +23,12 @@
 from engine import screenManager
 from engine import inputManager
 
+def renderInput():
+	if newInput.dumpInput() == 260:
+		screenObject.screenPrint()
+	else:
+		pass
+
 def main():
 	#draw the screen and start it
 	screenObject = screenManager.Screen()
@@ -34,6 +40,6 @@ def main():
 	newInput.run() # start the thread running
 	
 	while newInput.userQuit is not True:
-		newInput.dumpInput()
+		self.renderInput()
 	
 main()
