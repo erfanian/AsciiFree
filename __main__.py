@@ -16,7 +16,7 @@
 # You should have received a copy of the GNU General Public License      #
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.  #
 ##########################################################################
-## filename.py contributors:                                             #
+## __main__.py contributors:                                             #
 ## Eric Erfanian                                                         #
 ##########################################################################
 
@@ -33,6 +33,7 @@ def main():
 	newInput.setUp(screenObject) #pass the screen object so the input can draw to it.
 	newInput.run() # start the thread running
 	
-#	print(newInput.dumpInput())
+	while newInput.userQuit is not True:
+		newInput.dumpInput()
 	
 main()
