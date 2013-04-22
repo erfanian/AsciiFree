@@ -43,7 +43,7 @@ class Input (threading.Thread):
 	screenObject = 0
 
 	def setUp(self, passedScreenObject):
-		Input.screenObject = passedScreenObject
+		self.screenObject = passedScreenObject
 		return 
 	
 	# this is an EXTREMELY unsafe way to quit the
@@ -79,14 +79,18 @@ class Input (threading.Thread):
 			
 			### for testing, sleep for 10 msec
 			time.sleep(0.01)
-				
-			if self.dumpInput() == 260: #TODO Figure out why this only works here
+			
+			self.screenObject.stdscr.addstr(0, 0, "The game has started")
+
+			evalChar = self.dumpInput()
+			
+			if evalChar == 260: #TODO Figure out why this only works here
 				self.screenObject.screenRefresh()
 				print("/")
-			elif self.dumpInput() == 258:
+			elif evalChar == 258:
 				self.screenObject.screenRefresh()
 				print("|")
-			elif self.dumpInput() == 261:
+			elif evalChar == 261:
 				self.screenObject.screenRefresh()
 				print("\\")
 			else:
@@ -118,4 +122,7 @@ class Input (threading.Thread):
 	def dumpInput(self):
 		while not self.inputEvents.empty():
 			return self.inputEvents.get() #Just change this to return later for the game engine
+			
+	def print(self):
+		print('Hello')
 
