@@ -79,8 +79,18 @@ class Input (threading.Thread):
 			
 			### for testing, sleep for 10 msec
 			time.sleep(0.01)
-			
-			self.dumpInput()
+				
+			if self.dumpInput() == 260: #TODO Figure out why this only works here
+				self.screenObject.screenRefresh()
+				print("/")
+			elif self.dumpInput() == 258:
+				self.screenObject.screenRefresh()
+				print("|")
+			elif self.dumpInput() == 261:
+				self.screenObject.screenRefresh()
+				print("\\")
+			else:
+				pass
 			
 	# handleInput(inputChar) is called to handle an input
 	#    character.  This should only be called inside
@@ -108,3 +118,4 @@ class Input (threading.Thread):
 	def dumpInput(self):
 		while not self.inputEvents.empty():
 			return self.inputEvents.get() #Just change this to return later for the game engine
+
