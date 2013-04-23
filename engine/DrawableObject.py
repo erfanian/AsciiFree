@@ -16,16 +16,16 @@ class DrawableObject:
         # track of that and make this class completely abstract.
 
         # ivars
-        posX = 0   # the origin.  type int
-        posY = 0
-        name = "<unnamed>"
+	posX = 0   # the origin.  type int
+	posY = 0
+	name = "<unnamed>"
         
 	# nothing much to do in the init method
-        def __init__(self):
+	def __init__(self):
 		pass
-        # subclasses must override this method!
-        # called by AsciiRenderingManager - returns the character map to use for the given context
-        # if you don't care about drawing in multiple contexts, just return one.
-        # if you do care, you'll have to handle multiple character maps.  I suggest an array of different maps to draw.
-        def characterMapForDrawingContext(self, drawingContext, boundX, boundY):
-                raise SubclassMustImplementException()
+	# subclasses must override this method!
+	# called by AsciiRenderingManager - returns the character map to use for the given context
+	# if you don't care about drawing in multiple contexts, just return one.
+	# if you do care, you'll have to handle multiple character maps.  I suggest an array of different maps to draw.
+	def characterMapForDrawingContext(self, drawingContext, boundX, boundY):
+		pass # raise SubclassMustImplementException()

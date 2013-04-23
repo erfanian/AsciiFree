@@ -57,22 +57,24 @@ class Input (threading.Thread):
 	#    threadMainLoop() which runs until the thread
 	#    needs to die.  Then it's done!
 	def run(self):
+		self.name = "InputManager"
+
 		print("THREAD %s STARTING!" % self.name)
 
 		self.threadMainLoop()
 
 		print( "THREAD %s STOPPING!  Goodbye!" % self.name)
 		
-		self.screenObject.screenRefresh()
-		self.screenObject.stopScreen()
 
 	def threadMainLoop(self):
 		# this loop will run until self.userQuit becomes True
 		while self.userQuit is not True:
-			self.screenObject.stdscr.nodelay(1)
+			
+			# removing since we don't need to spin this thread - we'll wait for getch() instead
+			# self.screenObject.stdscr.nodelay(1)
 
 			### get an input character
-			inputChar = self.screenObject.stdscr.getch()		#Get the input
+			inputChar = self.screenObject._stdscr.getch() # Get a character of input
 			
 			### now handle the input
 			self.handleInput(inputChar)
@@ -80,21 +82,11 @@ class Input (threading.Thread):
 			### for testing, sleep for 10 msec
 			time.sleep(0.01)
 			
-			self.screenObject.stdscr.addstr(0, 0, "The game has started")
 
-			evalChar = self.dumpInput()
+			# CJC: Moving the below to GameEngine!
+			# self.screenObject.stdscr.addstr(0, 0, "The game has started")
 			
-			if evalChar == 260: #TODO Figure out why this only works here
-				self.screenObject.screenRefresh()
-				print("/")
-			elif evalChar == 258:
-				self.screenObject.screenRefresh()
-				print("|")
-			elif evalChar == 261:
-				self.screenObject.screenRefresh()
-				print("\\")
-			else:
-				pass
+
 			
 	# handleInput(inputChar) is called to handle an input
 	#    character.  This should only be called inside
@@ -103,16 +95,12 @@ class Input (threading.Thread):
 	#    synchronized, so if it gets called in two places
 	#    at once, you'll have crazy race conditions. 
 	def handleInput(self, inputChar):
+		# let's do this for all input characters:
+		self.storeInput(inputChar)
+
+		# there's a special case for character 113
 		if inputChar == 113:
 			self.userQuit = True
-		elif inputChar == 260:
-			self.storeInput(inputChar)
-		elif inputChar == 258:		
-			self.storeInput(inputChar)
-		elif inputChar == 261:
-			self.storeInput(inputChar)
-		else:
-			pass
 	
 	def storeInput(self, keyPress):
 		self.inputEvents.put(keyPress)
@@ -120,9 +108,25 @@ class Input (threading.Thread):
 		return
 		
 	def dumpInput(self):
-		while not self.inputEvents.empty():
-			return self.inputEvents.get() #Just change this to return later for the game engine
-			
+		# this is simplified to a simple return
+		# statement - it will return the top
+		# character from the (thread-safe!)
+		# queue on input events.  We need to
+		# specify block=False for the case where
+		# the queue is empty.  Note that get()
+		# will raise an Empty exception if it is
+		# empty, so we need to catch that.
+
+		returnval = None
+		
+		try:
+			returnval = self.inputEvents.get(block=False)
+		except queue.Empty as e:
+			pass
+
+		return returnval
+
+
 	def print(self):
 		print('Hello')
 

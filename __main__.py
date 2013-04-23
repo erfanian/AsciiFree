@@ -1,4 +1,4 @@
-#! /usr/bin/env python3.0
+#! /usr/bin/env python3
 ##########################################################################
 ## AsciiFree project #####################################################
 ## An open-source, ASCII-graphics version of SkiFree #####################
@@ -20,17 +20,13 @@
 ## Eric Erfanian                                                         #
 ##########################################################################
 
-from engine import screenManager
-from engine import inputManager
+from engine import GameEngine
 
 def main():
-	#draw the screen and start it
-	screenObject = screenManager.Screen()
-	screenObject.startScreen()
-	
-	#get some input
-	newInput = inputManager.Input()
-	newInput.setUp(screenObject) #pass the screen object so the input can draw to it.
-	newInput.run() # start the thread running
+	# let's build a GameEngine and run it.
+	engine = GameEngine.GameEngine()
+	engine.start()
+
+
 	
 main()

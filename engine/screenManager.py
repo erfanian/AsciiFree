@@ -26,22 +26,38 @@ import curses
 class Screen:
 	'A generic screen class for now'
 	
+	_stdscr = None
+
 	def startScreen(self):
 		#global stdscr #Make sure others can access the screen
-		self.stdscr = curses.initscr()	#Draw a screen
-		curses.noecho()	#Mute echo
+		print('Screen: starting screen...')
+		self._stdscr = curses.initscr()	#Draw a screen
+		curses.noecho()	        #Mute echo
 		curses.cbreak() 	#Accept input immediately
-		self.stdscr.keypad(1) 	#Translate special keys to regular
-		print('Starting Screen')
+		self._stdscr.keypad(1) 	#Translate special keys to regular
+
+		# just for fun: RAVE MODE!!!
+		# caution: only enable this for fun.
+		# self._stdscr.bkgd(35,curses.A_BLINK)
+
 		return
+
+	def move(self, x, y):
+		self._stdscr.move(x, y)
+	
+	def addstr(self, string):
+		self._stdscr.addstr(string, curses.A_NORMAL)
+
 		
 	def stopScreen(self):
-		#Give the user her session back
+		# Give the user her session back - make sure to return to the default echoing parameters.
+		curses.nocbreak()
+		self._stdscr.keypad(0)
+		curses.echo()
 		curses.endwin()
-		print('Stopping Screen')
+		print('Screen: stopped curses module')
 		return
 	
 	def screenRefresh(self):
-		self.stdscr.clear()	
-		self.stdscr.refresh()
+		self._stdscr.refresh()
 		return
