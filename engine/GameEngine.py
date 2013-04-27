@@ -18,6 +18,7 @@
 ##########################################################################
 ## GameEngine.py contributors:                                           #
 ## Chris Cornelius                                                       #
+## Eric Erfanian                                                         #
 ##########################################################################
 
 # needed system components
@@ -36,8 +37,6 @@ class GameEngine:
     #     of this object.  Manages I/O, events processing, screen drawing,
     #     and the run loop for the game.  Subclassers should take note of
     #     which methods to override and which to let alone.
-
-
 
 
     # subclassable - override these!
@@ -67,10 +66,6 @@ class GameEngine:
 
         # the following is for later:
         pass # raise SubclassMustImplementException()
-
-
-
-
 
 
     # public - call but do not override!
@@ -103,8 +98,6 @@ class GameEngine:
     # private - ivars
     _shouldKeepRunning = True
     
-
-
     # private - managers
     # these are set up in the __init__ method
     _screen = None
