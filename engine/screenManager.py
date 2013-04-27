@@ -18,6 +18,7 @@
 ##########################################################################
 ## screenManager.py contributors:                                        #
 ## Eric Erfanian                                                         #
+## Chris Cornelius                                                       #
 ##########################################################################
 
 #That was easy! http://docs.python.org/3.1/howto/curses.html
