@@ -83,7 +83,7 @@ class GameEngine:
 
     # private - do not touch!
     def runloop(self):
-        self._screen.addstr(self._drawableObjectsDictionary['startBanner'])
+        self._screen.addstr(self._renderingManager._drawableObjectsDictionary['DrawableObjectStartScreen'])
 
         while (self._shouldKeepRunning):
             # here is where we call self.iteration() and then redraw the UI

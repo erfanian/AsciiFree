@@ -21,6 +21,7 @@
 ##########################################################################
 
 import curses
+from engine.DrawableObject import  * 
 
 
 class AsciiRenderingManager:
@@ -30,9 +31,11 @@ class AsciiRenderingManager:
         # performs boundschecking, collision detection, and 
         # displays an error message if the terminal is sized
         # too small to continue.
-
+	DrawableObjectStartScreen = DrawableObject
+	DrawableObjectStartScreen.payload = "    ___              _ _ ______             \n   /   |  __________(_|_) ____/_______  ___ \n  / /| | / ___/ ___/ / / /_  / ___/ _ \/ _ \ \n / ___ |(__  ) /__/ / / __/ / /  /  __/  __/\n/_/  |_/____/\___/_/_/_/   /_/   \___/\___/ \n"
+	
         # ivars
-	_drawableObjectsArray = []  # will hold all the DrawableObjects we want to write to the screen
+	_drawableObjectsDictionary = {'DrawableObjectStartScreen' : DrawableObjectStartScreen.payload}  # will hold all the DrawableObjects we want to write to the screen
 	_screen = None
 	
         # sets up the rendering engine

@@ -20,7 +20,7 @@
 ## Chris Cornelius                                                       #
 ##########################################################################
 
-from SubclassMustImplementException import *
+#from SubclassMustImplementException import *
 
 
 class DrawableObject:
@@ -35,6 +35,7 @@ class DrawableObject:
 	posX = 0   # the origin.  type int
 	posY = 0
 	name = "<unnamed>"
+	payload = "Test Payload"
         
 	# nothing much to do in the init method
 	def __init__(self):
