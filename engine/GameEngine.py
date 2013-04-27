@@ -80,10 +80,9 @@ class GameEngine:
     def setActiveDrawingContext(self, newContext):
         self._drawingContext = newContext
 
-
     # private - do not touch!
     def runloop(self):
-        self._screen.addstr(self._renderingManager._drawableObjectsDictionary['DrawableObjectStartScreen'])
+        self._screen.addstr('Press q to  quit cleanly')
 
         while (self._shouldKeepRunning):
             # here is where we call self.iteration() and then redraw the UI
@@ -100,7 +99,7 @@ class GameEngine:
         self._inputManager = Input()
         self._inputManager.setUp(self._screen)
         self._inputManager.start()
-
+        self._inputManager.storeInput(self._renderingManager._drawableObjectsDictionary['DrawableObjectStartScreen']) #Draw the start Screen
     # private - ivars
     _shouldKeepRunning = True
     
