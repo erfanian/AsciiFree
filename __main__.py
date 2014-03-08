@@ -20,13 +20,12 @@
 ## Eric Erfanian                                                         #
 ##########################################################################
 
-from engine import GameEngine
+from engine import game_engine
 
 def main():
-	# let's build a GameEngine and run it.
-	engine = GameEngine.GameEngine()
-	engine.start()
+  # let's build a GameEngine and run it.
+  engine = game_engine.GameEngine()
+  engine.start()
 
-
-	
-main()
+if __name__ == '__main__':
+  main()

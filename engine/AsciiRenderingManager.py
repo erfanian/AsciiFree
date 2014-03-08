@@ -21,7 +21,7 @@
 ##########################################################################
 
 import curses
-from engine.DrawableObject import  * 
+from DrawableObject import  * 
 
 
 class AsciiRenderingManager:
