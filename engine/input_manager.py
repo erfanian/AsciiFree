@@ -40,7 +40,7 @@ class Input (threading.Thread):
     self.input_char = None
     self.input_events = queue.Queue()
     self.user_quit = False
-    self.screen_object = None
+    self.screen_object = screen_object 
     self.name = "InputManager"
     self.lock = threading.Lock()
 
@@ -62,10 +62,10 @@ class Input (threading.Thread):
     while self.user_quit is not True:
 
       # Get a character of input
-      self.input_char = self.screen_object._stdscr.getch()
+      self.input_char = self.screen_object.getch()
 
       if self.lock.acquire(True):
-        self.put_input(input_char)
+        self.put_input(self.input_char)
         self.lock.release()
 		
   def put_input(self, input_char):

@@ -21,13 +21,9 @@
 ## Eric Erfanian                                                         #
 ##########################################################################
 
-# needed system components
 import curses
 
-
-# engine components
-import AsciiRenderingManager
-import EventsManager
+import ascii_rendering_manager
 import screen_manager
 import input_manager
 
@@ -36,16 +32,13 @@ class GameEngine(object):
   #     of this object.  Manages I/O, events processing, screen drawing,
   #     and the run loop for the game.  Subclassers should take note of
   #     which methods to override and which to let alone.
-
-
   def __init__(self):
     self._screen = screen_manager.Screen()
-    self._input_man = input_manager.Input(self.screen.get_screen())
-    self._renderingManager = AsciiRenderingManager(self._screen, 20, 20)
+    self._input_man = input_manager.Input(self._screen.get_screen())
+    self._rendering_manager = ascii_rendering_manager.AsciiRenderingManager(
+		    self._screen, 20, 20)
     self._input_man.start()
     self._should_keep_running = True
-    self._renderingManager = None
-    self._drawingContext = 0
 
   def iteration(self):
     # This method is called on every time through the game loop.  In
@@ -72,8 +65,8 @@ class GameEngine(object):
   def start(self):
     self.run_loop()
         
-  def setActiveDrawingContext(self, newContext):
-    self._drawingContext = newContext
+  def set_active_drawing_context(self, new_context):
+    self._drawing_context = new_nontext
 
   # private - do not touch!
   def run_loop(self):
@@ -82,7 +75,11 @@ class GameEngine(object):
     while (self._should_keep_running):
       # here is where we call self.iteration() and then redraw the UI
       self.iteration()
-      self._renderingManager.draw(self._drawingContext)
+      self._rendering_manager.draw()
 
     self._screen.stop_screen()
+
+if __name__ == '__main__':
+  engine = GameEngine()
+  engine.start()
 
