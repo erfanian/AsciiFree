@@ -30,13 +30,13 @@ class Screen(object):
   'A generic screen class for now'
 
   def __init__(self):
-    self._stdscr = None
-    #global stdscr #Make sure others can access the screen
     logging.info('Starting screen.')
     self._stdscr = curses.initscr()	#Draw a screen
     curses.noecho()	        #Mute echo
     curses.cbreak() 	#Accept input immediately
     self._stdscr.keypad(1) 	#Translate special keys to regular
+    self.width = curses.COLS
+    self.height = curses.LINES
 
   def get_screen(self):
     """A method to return this object's screen."""
@@ -46,8 +46,8 @@ class Screen(object):
   def move(self, x, y):
     self._stdscr.move(x, y)
 	
-  def add_str(self, string):
-    self._stdscr.addstr(string, curses.A_NORMAL)
+  def add_str(self, y=0, x=0, output=None):
+    self._stdscr.addstr(y, x, output, curses.A_NORMAL)
 
 		
   def stop_screen(self):

@@ -22,6 +22,7 @@
 ##########################################################################
 
 import curses
+import math
 
 import ascii_rendering_manager
 import screen_manager
@@ -61,11 +62,13 @@ class GameEngine(object):
 
     if self._show_title:
       self._screen.screen_clear()
-      self._screen.add_str(self._rendering_manager._drawable_objects_dictionary.get(
-                           'drawable_object_start_screen'))
+      self._screen.add_str(y=int(self._screen.height/2), x=int(self._screen.width/2),
+		      output=str(self._rendering_manager.
+		       _drawable_objects_dictionary.get(
+		      'drawable_object_start_screen')))
     elif eval_char is not None:
       self._screen.screen_clear()
-      self._screen.add_str(str(eval_char))
+      self._screen.add_str(0, 0, str(eval_char))
     
     self._screen.screen_refresh()
 
@@ -78,7 +81,6 @@ class GameEngine(object):
 
   # private - do not touch!
   def run_loop(self):
-    self._screen.move(0,0)
     self._screen.screen_clear()
     self._screen.screen_refresh()
 
