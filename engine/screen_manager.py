@@ -60,3 +60,6 @@ class Screen(object):
     	
   def screen_refresh(self):
     self._stdscr.refresh()
+
+  def screen_clear(self):
+    self._stdscr.clear()

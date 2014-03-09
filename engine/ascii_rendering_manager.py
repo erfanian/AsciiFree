@@ -37,7 +37,9 @@ class AsciiRenderingManager(object):
      /   |  __________(_|_) ____/_______  ___ 
     / /| | / ___/ ___/ / / /_  / ___/ _ \/ _ \ 
    / ___ |(__  ) /__/ / / __/ / /  /  __/  __/
-  /_/  |_/____/\___/_/_/_/   /_/   \___/\___/"""
+  /_/  |_/____/\___/_/_/_/   /_/   \___/\___/
+  
+    Press enter to continue, and q to quit."""
 	
   _drawable_objects_dictionary = {'drawable_object_start_screen' : drawable_object_start_screen.payload}
   _screen = None

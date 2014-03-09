@@ -39,6 +39,7 @@ class GameEngine(object):
 		    self._screen, 20, 20)
     self._input_man.start()
     self._should_keep_running = True
+    self._show_title = True
 
   def iteration(self):
     # This method is called on every time through the game loop.  In
@@ -46,21 +47,28 @@ class GameEngine(object):
     # should be, and return quickly.
 
     eval_char = self._input_man.get_input()
-        
-    if eval_char == None:
-      # we got no input - nothing to do
-      pass
-    else:
-      self._screen.move(1,0)
-      self._screen.add_str(str(eval_char))
-      self._screen.screen_refresh()
+
+    self._screen.screen_refresh()
+
+    if eval_char == 10:
+      self._show_title = False
 
     if eval_char == 113:
       # a 'q' means quit!
       self._should_keep_running = False # TODO: make a helper method for this assignment
     else:
       pass
-            
+
+    if self._show_title:
+      self._screen.screen_clear()
+      self._screen.add_str(self._rendering_manager._drawable_objects_dictionary.get(
+                           'drawable_object_start_screen'))
+    elif eval_char is not None:
+      self._screen.screen_clear()
+      self._screen.add_str(str(eval_char))
+    
+    self._screen.screen_refresh()
+
   # public - call but do not override!
   def start(self):
     self.run_loop()
@@ -70,7 +78,9 @@ class GameEngine(object):
 
   # private - do not touch!
   def run_loop(self):
-    self._screen.add_str('Press q to quit cleanly')
+    self._screen.move(0,0)
+    self._screen.screen_clear()
+    self._screen.screen_refresh()
 
     while (self._should_keep_running):
       # here is where we call self.iteration() and then redraw the UI
