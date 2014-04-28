@@ -41,7 +41,27 @@ class GameEngine(object):
     self._input_man.start()
     self._should_keep_running = True
     self._show_title = True
+    self._title_text = str(self._rendering_manager.
+		       _drawable_objects_dictionary.get(
+		      'drawable_object_start_screen'))
+    self._cur_x = 0
+    self._cur_y = 0
+    self._cur_char = "0"
+    
+  def checkBounds(self, x_delta, y_delta):
+    if self._cur_x + x_delta >= 0:
+      self._cur_x += x_delta
+      
+    if self._cur_x == (self._screen.width - len(self._cur_char)):
+      self._cur_x -= 1
 
+    if self._cur_y + y_delta >= 0:
+      self._cur_y += y_delta
+
+    if self._cur_y == self._screen.height:
+      self._cur_y -= 1
+      
+    
   def iteration(self):
     # This method is called on every time through the game loop.  In
     # this method, you should check input, determine what the display 
@@ -59,16 +79,39 @@ class GameEngine(object):
       self._should_keep_running = False # TODO: make a helper method for this assignment
     else:
       pass
+    
+    if eval_char == 258:
+      self._cur_char = "\/"
+      self.checkBounds(0, 1) # down
+    elif eval_char == 259:
+      self._cur_char = "/\\"
+      self.checkBounds(0, -1) # up
+    elif eval_char == 260:
+      self._cur_char = "<"
+      self.checkBounds(-1, 0) # left
+    elif eval_char == 261:
+      self._cur_char = ">"
+      self.checkBounds(1, 0) # right
 
     if self._show_title:
       self._screen.screen_clear()
-      self._screen.add_str(y=int(self._screen.height/2), x=int(self._screen.width/2),
-		      output=str(self._rendering_manager.
-		       _drawable_objects_dictionary.get(
-		      'drawable_object_start_screen')))
+      i = 0
+      line_len = 0
+      line_height = 0
+      for line in self._title_text.splitlines():
+        if len(line) > line_len:
+          line_len = int(len(line)/2)
+        line_height += 1
+      for line in self._title_text.splitlines():
+       self._screen.add_str(y=int((self._screen.height/2) - int(line_height/2) + i),
+			    x=(int(self._screen.width/2) - line_len),
+                            output=line)
+       i += 1
     elif eval_char is not None:
       self._screen.screen_clear()
-      self._screen.add_str(0, 0, str(eval_char))
+      self._screen.add_str(self._cur_y,
+			   self._cur_x,
+			   self._cur_char)
     
     self._screen.screen_refresh()
 

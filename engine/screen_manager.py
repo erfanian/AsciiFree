@@ -35,6 +35,7 @@ class Screen(object):
     curses.noecho()	        #Mute echo
     curses.cbreak() 	#Accept input immediately
     self._stdscr.keypad(1) 	#Translate special keys to regular
+    curses.curs_set(0) # cursor visibility
     self.width = curses.COLS
     self.height = curses.LINES
 
