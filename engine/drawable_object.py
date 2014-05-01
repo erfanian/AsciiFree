@@ -32,6 +32,7 @@ class DrawableObject(object):
   def __init__(self):
     self.pos_x = 0   # the origin.  type int
     self.pos_y = 0
+    self.human_position = None
     self.name = None
     self.payload = None
         

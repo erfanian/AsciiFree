@@ -27,7 +27,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 class Screen(object):
-  'A generic screen class for now'
+  'A generic screen class.'
 
   def __init__(self):
     logging.info('Starting screen.')
@@ -35,10 +35,12 @@ class Screen(object):
     curses.noecho()	        #Mute echo
     curses.cbreak() 	#Accept input immediately
     self._stdscr.keypad(1) 	#Translate special keys to regular
-    curses.curs_set(0) # cursor visibility
+    curses.curs_set(0) # cursor invisibility
     self.width = curses.COLS
     self.height = curses.LINES
-
+    self._cur_x = 0
+    self._cur_y = 0
+    
   def get_screen(self):
     """A method to return this object's screen."""
 
@@ -50,7 +52,20 @@ class Screen(object):
   def add_str(self, y=0, x=0, output=None):
     self._stdscr.addstr(y, x, output, curses.A_NORMAL)
 
-		
+  def checkBounds(self, x_delta, y_delta):
+    if self._cur_x + x_delta >= 0:
+      self._cur_x += x_delta
+
+    # len(self._cur_char)
+    if self._cur_x == (self.width - 2):
+      self._cur_x -= 1
+
+    if self._cur_y + y_delta >= 0:
+      self._cur_y += y_delta
+
+    if self._cur_y == self.height:
+      self._cur_y -= 1
+
   def stop_screen(self):
     # Give the user her session back - make sure to return to the default echoing parameters.
     curses.nocbreak()
